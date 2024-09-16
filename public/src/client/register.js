@@ -13,11 +13,14 @@ define('forum/register', [
         const password = $('#password');
         const password_confirm = $('#password-confirm');
         const register = $('#register');
-
         handleLanguageOverride();
 
         $('#content #noscript').val('false');
-
+        const existingUser = api.get('/users/username/' + username.val());
+        if (existingUser) {
+            $('#username-notify').text('Username already taken');
+            res.status(400).json({ message: 'Username already taken' });
+        }
         const query = utils.params();
         if (query.token) {
             $('#token').val(query.token);
