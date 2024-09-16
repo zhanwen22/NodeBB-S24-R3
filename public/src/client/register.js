@@ -16,11 +16,6 @@ define('forum/register', [
         handleLanguageOverride();
 
         $('#content #noscript').val('false');
-        const existingUser = api.get('/users/username/' + username.val());
-        if (existingUser) {
-            $('#username-notify').text('Username already taken');
-            res.status(400).json({ message: 'Username already taken' });
-        }
         const query = utils.params();
         if (query.token) {
             $('#token').val(query.token);
@@ -134,7 +129,7 @@ define('forum/register', [
                 if (results.every(obj => obj.status === 'rejected')) {
                     showSuccess(username_notify, successIcon);
                 } else {
-                    showError(username_notify, '[[error:username-taken]]');
+                    showError(username_notify, '[[error:username-taken, "$(username).suffix"]]');
                 }
 
                 callback();
